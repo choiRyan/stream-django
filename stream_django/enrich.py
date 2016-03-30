@@ -2,6 +2,7 @@ import collections
 from collections import defaultdict
 import operator
 import itertools
+import uuid
 
 try:
     from django.apps import apps
@@ -118,7 +119,7 @@ class Enrich(object):
             if not self.is_ref(activity, field):
                 continue
             f_ct, f_id = activity[field].split(':')
-            instance = objects[f_ct].get(f_id)
+            instance = objects[f_ct].get(uuid.UUID(f_id))
             if instance is None:
                 activity.track_not_enriched_field(field, activity[field])
             else:
